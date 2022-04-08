@@ -2,6 +2,7 @@
 const display = document.querySelector('.screen');
 const buttons = Array.from(document.querySelectorAll('.button'));
 
+// Add event listeners
 buttons.forEach(btn => {
     btn.addEventListener('click', e => {
         if(display.textContent == 0) {
@@ -12,7 +13,6 @@ buttons.forEach(btn => {
         display.textContent
     });
 });
-
 
 // Basic operations
 function add(a, b) {
