@@ -16,7 +16,7 @@ body {
     background-color: cornflowerblue;
     padding: 4px;
     padding-top: 12px;
-
+    border-radius: 5px;
     width: 400px;
 }
 
@@ -43,6 +43,7 @@ body {
     align-items: center;
     justify-content: center;
     user-select: none;
+    border-radius: 2px;
 
     width: 76px;
     height: 36px;
