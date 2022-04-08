@@ -28,6 +28,10 @@ body {
     padding: 4px;
 
     width: 93%;
+    height: 64px;
+
+    font-size: 36px;
+    font-weight: bold;
 }
 
 .btn-container {

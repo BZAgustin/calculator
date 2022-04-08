@@ -1,3 +1,19 @@
+// Target display and buttons
+const display = document.querySelector('.screen');
+const buttons = Array.from(document.querySelectorAll('.button'));
+
+buttons.forEach(btn => {
+    btn.addEventListener('click', e => {
+        if(display.textContent == 0) {
+            display.textContent = e.target.innerHTML;
+        } else {
+            display.textContent += e.target.innerHTML;
+        }
+        display.textContent
+    });
+});
+
+
 // Basic operations
 function add(a, b) {
     return a+b;
