@@ -1,16 +1,22 @@
+// Global variables
+let operand_one = 0;
+let operand_two = 0;
+
 // Target display and buttons
 const display = document.querySelector('.screen');
-const buttons = Array.from(document.querySelectorAll('.button'));
+const numbers = Array.from(document.querySelectorAll('.number'));
+const operators = Array.from(document.querySelectorAll('.operator'));
+const other = Array.from(document.querySelectorAll('.other'));
+const result = Array.from(document.querySelector('.result'));
 
 // Add event listeners
-buttons.forEach(btn => {
+numbers.forEach(btn => {
     btn.addEventListener('click', e => {
         if(display.textContent == 0) {
             display.textContent = e.target.innerHTML;
         } else {
             display.textContent += e.target.innerHTML;
         }
-        display.textContent
     });
 });
 
@@ -31,6 +37,7 @@ function multiply(a, b) {
     return a*b;
 }
 
+// Operator function
 function operate(operator, x, y) {
     if(operator === '+') {
         return add(x, y);
