@@ -1,6 +1,8 @@
 // Global variables
-let operand_one = 0;
-let operand_two = 0;
+let firstOperand = 0;
+let lastOperand = 0;
+let operator = '';
+let isFloat = false;
 
 // Target display and buttons
 const display = document.querySelector('.screen');
@@ -12,13 +14,22 @@ const result = Array.from(document.querySelector('.result'));
 // Add event listeners
 numbers.forEach(btn => {
     btn.addEventListener('click', e => {
-        if(display.textContent == 0) {
-            display.textContent = e.target.innerHTML;
-        } else {
-            display.textContent += e.target.innerHTML;
-        }
+        drawNumber(e);
     });
 });
+
+// Draw number on screen
+function drawNumber(e) {
+    if(display.textContent == 0) {
+        if(e.target.id === 'zero') {
+            display.textContent = '0';
+        } else {
+            display.textContent = e.target.innerHTML;
+        }
+    } else {
+        display.textContent += e.target.innerHTML;
+    }
+}
 
 // Basic operations
 function add(a, b) {
@@ -47,3 +58,26 @@ function operate(operator, x, y) {
         return divide(x, y);
     } else return multiply(x, y);
 }
+
+// Clear all values
+function clearValues() {
+    firstOperand = 0;
+    lastOperand = 0;
+    operator = '';
+    isFloat = false;
+}
+
+// Remove last digit
+function deleteLastDigit(str) {
+    return str.pop();
+}
+
+// Change to opposite sign
+function changeSign(val) {  
+  if(val > 0) {
+      return -Math.abs(val);
+  } else if(val < 0) {
+      return Math.abs(val);
+  } else return val;
+}
+
