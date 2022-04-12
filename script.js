@@ -1,29 +1,30 @@
 // Global variables
-let firstOperand = 0;
-let lastOperand = 0;
+let firstOperand = undefined;
+let lastOperand = undefined;
 let operator = '';
+let lastOperator = '';
+let opIsPressed = false;
 
 // Target display and buttons
 const display = document.querySelector('.screen');
 const numbers = Array.from(document.querySelectorAll('.number'));
 const operators = Array.from(document.querySelectorAll('.operator'));
 const other = Array.from(document.querySelectorAll('.other'));
-const result = Array.from(document.querySelector('.result'));
+const result = document.querySelector('.result');
 
-// Add number buttons' event listeners
+// 'Number' buttons event listeners
 numbers.forEach(btn => {
     btn.addEventListener('click', e => {
         if(operator != '') {
             display.textContent = '';
             drawNumber(e);
-            operator = '';
         } else {
             drawNumber(e);
-        }
-        
+        } 
     });
 });
 
+// 'Other' buttons event listeners
 other.forEach(btn => {
     btn.addEventListener('click', e => {
         let id = e.target.id;
@@ -48,49 +49,68 @@ other.forEach(btn => {
     });
 });
 
+// 'Operator' buttons event listeners
 operators.forEach(btn => {
     btn.addEventListener('click', e => {
         let id = e.target.id;
         
-        // Check if there's an operation already going
-        if(operator != '') {
+        // Runs when there is already an existing operation
+        if(lastOperator != '') {
             console.log('Operator is defined');
             // Check whether the operation button is being pressed twice
-            if(lastOperand === 0) {
+            if(opIsPressed) {
                 console.log('No last operand. Returning');
+                return;
             } else {
                 console.log('Operation and last operand found. Displaying solved operation');
+                lastOperand = display.textContent;
                 display.textContent = solveOperation(operator, firstOperand, lastOperand);
+                firstOperand = display.textContent;
+                opIsPressed = false;
             }
         }
         
         if(id === 'add') {
             console.log('Current operator: plus');
             operator = '+';
+            display.textContent += ' +';
         } else if(id === 'substract') {
             console.log('Current operator: minus');
             operator = '-';
+            display.textContent += ' -';
         } else if(id === 'multiply') {
             console.log('Current operator: times');
             operator = '*';
+            display.textContent += ' *';
         } else {
             console.log('Current operator: by');
             operator = '/';
+            display.textContent += ' /';
         } 
         
         if(display.textContent != '0') {
-            if(firstOperand === 0) {
+            if(firstOperand === undefined) {
                 console.log('No first operand found. Saving display as 1st operand');
                 firstOperand = display.textContent;
             } else {
                 console.log('First operand found. Saving display as 2nd operand and solving operation');
                 lastOperand = display.textContent;
                 display.textContent = solveOperation(operator, firstOperand, lastOperand);
-            }
+                firstOperand = display.textContent;
+                }
         } else return;
         
     });
 })
+
+result.addEventListener('click', e => {
+    if(firstOperand && display.textContent && operator && !opIsPressed) {
+        lastOperand = display.textContent;
+        display.textContent = solveOperation(operator, firstOperand, lastOperand);
+        clearValues();
+        firstOperand = display.textContent;
+    } else return;
+});
 
 // Draw number on screen
 function drawNumber(e) {
@@ -143,19 +163,23 @@ function solveOperation(operator, x, y) {
     console.log(`Second operand: ${y}`);
     
     if(operator === '+') {
-        display.textContent = add(x, y);
+        lastOperator = operator;
+        operator = '';
         clearValues();
         return add(x, y);
     } else if(operator === '-') {
-        display.textContent = substract(x, y);
+        lastOperator = operator;
+        operator = '';
         clearValues();
         return substract(x, y);
     } else if (operator === '/') {
-        display.textContent = divide(x, y);
+        lastOperator = operator;
+        operator = '';
         clearValues();
         return divide(x, y);
     } else {
-        display.textContent = multiply(x, y);
+        lastOperator = operator;
+        operator = '';
         clearValues();
         return multiply(x, y);
     }
@@ -163,9 +187,8 @@ function solveOperation(operator, x, y) {
 
 // Clear all values
 function clearValues() {
-    firstOperand = 0;
-    lastOperand = 0;
-    operator = '';
+    firstOperand = undefined;
+    lastOperand = undefined;
 }
 
 // Remove last digit
