@@ -15,9 +15,10 @@ const result = document.querySelector('.result');
 // 'Number' buttons event listeners
 numbers.forEach(btn => {
     btn.addEventListener('click', e => {
-        if(operator != '') {
+        if(operator && opIsPressed) {
             display.textContent = '';
             drawNumber(e);
+            opIsPressed = false;
         } else {
             drawNumber(e);
         } 
@@ -55,18 +56,17 @@ operators.forEach(btn => {
         let id = e.target.id;
         
         // Runs when there is already an existing operation
-        if(lastOperator != '') {
+        if(lastOperator) {
             console.log('Operator is defined');
             // Check whether the operation button is being pressed twice
             if(opIsPressed) {
                 console.log('No last operand. Returning');
                 return;
-            } else {
+            } else if(firstOperand && lastOperand){
                 console.log('Operation and last operand found. Displaying solved operation');
                 lastOperand = display.textContent;
                 display.textContent = solveOperation(operator, firstOperand, lastOperand);
                 firstOperand = display.textContent;
-                opIsPressed = false;
             }
         }
         
@@ -92,11 +92,13 @@ operators.forEach(btn => {
             if(firstOperand === undefined) {
                 console.log('No first operand found. Saving display as 1st operand');
                 firstOperand = display.textContent;
+                opIsPressed = true;
             } else {
                 console.log('First operand found. Saving display as 2nd operand and solving operation');
                 lastOperand = display.textContent;
                 display.textContent = solveOperation(operator, firstOperand, lastOperand);
                 firstOperand = display.textContent;
+                opIsPressed = true;
                 }
         } else return;
         
@@ -107,16 +109,18 @@ result.addEventListener('click', e => {
     if(firstOperand && display.textContent && operator && !opIsPressed) {
         lastOperand = display.textContent;
         display.textContent = solveOperation(operator, firstOperand, lastOperand);
-        clearValues();
         firstOperand = display.textContent;
+        clearValues();
+        lastOperator = '';
+        operator = '';
     } else return;
 });
 
 // Draw number on screen
 function drawNumber(e) {
-    if(display.textContent == 0) {
+    if(display.textContent === '0') {
         if(e.target.id === 'zero') {
-            display.textContent = '0';
+            return;
         } else {
             display.textContent = e.target.innerHTML;
         }
@@ -193,6 +197,10 @@ function clearValues() {
 
 // Remove last digit
 function deleteLastDigit(str) {
+    if(opIsPressed) {
+        opIsPressed = false;
+    }
+    
     let arr = Array.from(str);
     arr.pop();
     str = arr.join("");
