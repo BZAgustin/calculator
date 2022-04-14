@@ -63,10 +63,15 @@ operators.forEach(btn => {
                 console.log('No last operand. Returning');
                 return;
             } else if(firstOperand && lastOperand){
-                console.log('Operation and last operand found. Displaying solved operation');
-                lastOperand = display.textContent;
-                display.textContent = solveOperation(operator, firstOperand, lastOperand);
-                firstOperand = display.textContent;
+                if(lastOperand == 0 && operator == '/') {
+                    display.textContent == "ERROR";
+                    return;
+                } else {
+                    console.log('Operation and last operand found. Displaying solved operation');
+                    lastOperand = display.textContent;
+                    display.textContent = solveOperation(operator, firstOperand, lastOperand);
+                    firstOperand = display.textContent;
+                }
             }
         }
         
@@ -107,13 +112,18 @@ operators.forEach(btn => {
 
 result.addEventListener('click', e => {
     if(firstOperand && display.textContent && operator && !opIsPressed) {
-        lastOperand = display.textContent;
-        display.textContent = solveOperation(operator, firstOperand, lastOperand);
-        firstOperand = display.textContent;
-        clearValues();
-        lastOperator = '';
-        operator = '';
-    } else return;
+        if(lastOperand == 0 && operator == '/') {
+            display.textContent == "ERROR";
+            return;
+        } else {
+            lastOperand = display.textContent;
+            display.textContent = solveOperation(operator, firstOperand, lastOperand);
+            firstOperand = display.textContent;
+            clearValues();
+            lastOperator = '';
+            operator = '';
+        }
+    }   else return;
 });
 
 // Draw number on screen
@@ -200,7 +210,7 @@ function deleteLastDigit(str) {
     if(opIsPressed) {
         opIsPressed = false;
     }
-    
+
     let arr = Array.from(str);
     arr.pop();
     str = arr.join("");
