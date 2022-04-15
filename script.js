@@ -57,17 +57,14 @@ operators.forEach(btn => {
         
         // Runs when there is already an existing operation
         if(lastOperator) {
-            console.log('Operator is defined');
             // Check whether the operation button is being pressed twice
             if(opIsPressed) {
-                console.log('No last operand. Returning');
                 return;
             } else if(firstOperand && lastOperand){
                 if(lastOperand == 0 && operator == '/') {
                     display.textContent == "ERROR";
                     return;
                 } else {
-                    console.log('Operation and last operand found. Displaying solved operation');
                     lastOperand = display.textContent;
                     display.textContent = solveOperation(operator, firstOperand, lastOperand);
                     firstOperand = display.textContent;
@@ -75,31 +72,27 @@ operators.forEach(btn => {
             }
         }
         
-        if(id === 'add') {
-            console.log('Current operator: plus');
-            operator = '+';
-            display.textContent += ' +';
-        } else if(id === 'substract') {
-            console.log('Current operator: minus');
-            operator = '-';
-            display.textContent += ' -';
-        } else if(id === 'multiply') {
-            console.log('Current operator: times');
-            operator = '*';
-            display.textContent += ' *';
-        } else {
-            console.log('Current operator: by');
-            operator = '/';
-            display.textContent += ' /';
-        } 
+        if(!operator) {
+            if(id === 'add') {
+                operator = '+';
+                display.textContent += '+';
+            } else if(id === 'substract') {
+                operator = '-';
+                display.textContent += '-';
+            } else if(id === 'multiply') {
+                operator = '*';
+                display.textContent += '*';
+            } else {
+                operator = '/';
+                display.textContent += '/';
+            } 
+        } else return;
         
         if(display.textContent != '0') {
             if(firstOperand === undefined) {
-                console.log('No first operand found. Saving display as 1st operand');
                 firstOperand = display.textContent;
                 opIsPressed = true;
             } else {
-                console.log('First operand found. Saving display as 2nd operand and solving operation');
                 lastOperand = display.textContent;
                 display.textContent = solveOperation(operator, firstOperand, lastOperand);
                 firstOperand = display.textContent;
@@ -172,9 +165,6 @@ function solveOperation(operator, x, y) {
         x = parseInt(x);
         y = parseInt(y);
     }
-
-    console.log(`First operand: ${x}`);
-    console.log(`Second operand: ${y}`);
     
     if(operator === '+') {
         lastOperator = operator;
@@ -231,9 +221,7 @@ function changeSign(val) {
 function toFloat(str) {
     if(!isFloat(str)) {
         return str + '.';
-    } else {
-        return str;
-    }
+    } else return str;
 }
 
 // Evaluate float
