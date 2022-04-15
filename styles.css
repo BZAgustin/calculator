@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&family=Roboto+Mono&display=swap');
+
 body {
     margin: 0;
     padding: 0;
@@ -5,9 +7,21 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     
     height: 100vh;
+
+    background: rgb(53,55,80);
+    background: radial-gradient(circle, rgba(53,55,80,1) 0%, rgba(17,17,17,1) 100%);
+}
+
+header, footer {
+    color: white;
+    text-shadow: 2px 2px 2px black;
+}
+
+header, .btn-container, footer {
+    font-family: 'Nunito', sans-serif;
 }
 
 .container {
@@ -20,7 +34,8 @@ body {
     width: 400px;
 
     border-radius: 5px;
-    background-color: rgb(68, 68, 68);
+    background-color: rgb(54, 54, 56);
+    box-shadow: 2px 2px 5px black;
 
 }
 
@@ -36,6 +51,7 @@ body {
     font-size: 36px;
     font-weight: bold;
     background-color: rgb(214, 214, 214);
+    font-family: 'Roboto Mono', monospace;
 }
 
 .btn-container {
@@ -59,6 +75,41 @@ body {
     border-radius: 2px;
     background-color: rgb(102, 138, 180);
     user-select: none;
+    font-size: 24px;
+    transition: all 0.2s;
+}
+
+.button:hover {
+    background-color: rgb(138, 163, 192);
+    color: white;
+}
+
+.operator {
+    background-color: rgb(255, 182, 72);
+}
+
+.operator:hover {
+    background-color: rgb(255, 201, 119);
+}
+
+.result {
+    background-color: rgb(73, 165, 73);
+}
+
+.result:hover {
+    background-color: rgb(117, 228, 117);
+}
+
+.other {
+    background-color: rgb(82, 107, 136);
+}
+
+#decimal {
+    background-color: rgb(102, 138, 180);
+}
+
+#decimal:hover {
+    background-color: rgb(138, 163, 192);
 }
 
 .button:hover {
@@ -67,4 +118,17 @@ body {
 
 #zero {
     flex-grow: 2;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(88, 224, 224);
+}
+
+a:hover {
+    color: rgb(202, 255, 255);
+}
+
+footer {
+    color: white;
 }
