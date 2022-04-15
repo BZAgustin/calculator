@@ -209,6 +209,7 @@ function clearValues() {
 function deleteLastDigit(str) {
     if(opIsPressed) {
         opIsPressed = false;
+        operator = '';
     }
 
     let arr = Array.from(str);
