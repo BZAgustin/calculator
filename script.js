@@ -20,7 +20,9 @@ numbers.forEach(btn => {
             drawNumber(e);
             opIsPressed = false;
         } else {
-            drawNumber(e);
+            if(hasProperLength(display.textContent)) {
+                drawNumber(e);
+            } else return;
         } 
     });
 });
@@ -45,7 +47,9 @@ other.forEach(btn => {
                 display.textContent = changeSign(display.textContent);
             } else return;
         } else if(id === 'decimal') {
-            display.textContent = toFloat(display.textContent);
+            if(hasProperLength(display.textContent)) {
+                display.textContent = toFloat(display.textContent);
+            } else return;
         }
     });
 });
@@ -58,27 +62,30 @@ operators.forEach(btn => {
         if(operator && firstOperand && !opIsPressed) {
             lastOperand = display.textContent;
             display.textContent = solveOperation(operator, firstOperand, lastOperand);
+            display.textContent = formatDisplay(display.textContent);
             firstOperand = display.textContent;
         }
 
         if(!opIsPressed) {
-            if(id === 'add') {
-                operator = '+';
-                display.textContent += '+';
-                opIsPressed = true;
-            } else if(id === 'substract') {
-                operator = '-';
-                display.textContent += '-';
-                opIsPressed = true;
-            } else if(id === 'multiply') {
-                operator = '*';
-                display.textContent += '*';
-                opIsPressed = true;
-            } else {
-                operator = '/';
-                display.textContent += '/';
-                opIsPressed = true;
-            } 
+            if(hasProperLength(display.textContent)) {
+                if(id === 'add') {
+                    operator = '+';
+                    display.textContent += '+';
+                    opIsPressed = true;
+                } else if(id === 'substract') {
+                    operator = '-';
+                    display.textContent += '-';
+                    opIsPressed = true;
+                } else if(id === 'multiply') {
+                    operator = '*';
+                    display.textContent += '*';
+                    opIsPressed = true;
+                } else {
+                    operator = '/';
+                    display.textContent += '/';
+                    opIsPressed = true;
+                } 
+            } else return;        
         } else return;
         
         if(operator && !firstOperand) {
@@ -88,6 +95,7 @@ operators.forEach(btn => {
             } else {
                 lastOperand = display.textContent;
                 display.textContent = solveOperation(operator, firstOperand, lastOperand);
+                display.textContent = formatDisplay(display.textContent);
                 firstOperand = display.textContent;
                 opIsPressed = true;
                 }
@@ -99,6 +107,7 @@ result.addEventListener('click', e => {
     if(firstOperand && display.textContent && operator && !opIsPressed) {
             lastOperand = display.textContent;
             display.textContent = solveOperation(operator, firstOperand, lastOperand);
+            display.textContent = formatDisplay(display.textContent);
             firstOperand = display.textContent;
             clearValues();
             lastOperator = '';
@@ -218,4 +227,21 @@ function toFloat(str) {
 // Evaluate float
 function isFloat(val) {
     return Array.from(val).some(element => element === '.');
+}
+
+function formatDisplay(str) {
+    let arrStr = Array.from(str);
+    if(arrStr.length > 10) {
+        arrStr.splice(16, (arrStr.length-16));
+        str = arrStr.join("");
+        str += "~";
+        return str;
+    } else {
+        return str;
+    }
+};
+
+function hasProperLength(str) {
+    let arrStr = Array.from(str);
+    return arrStr.length < 16;
 }
