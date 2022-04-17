@@ -4,6 +4,7 @@ let lastOperand = undefined;
 let operator = '';
 let lastOperator = '';
 let opIsPressed = false;
+let lockOn = false;
 
 // Target display and buttons
 const display = document.querySelector('.screen');
@@ -15,6 +16,10 @@ const result = document.querySelector('.result');
 // 'Number' buttons event listeners
 numbers.forEach(btn => {
     btn.addEventListener('click', e => {
+        if(lockOn) {
+            return;
+        }
+
         if(operator && opIsPressed) {
             display.textContent = '';
             drawNumber(e);
@@ -34,9 +39,17 @@ other.forEach(btn => {
         
         // Select which action to perform based on the button pressed
         if(id === 'AC') {
+            if(lockOn) {
+                lockOn = false;
+            }
             clearValues();
             display.textContent = '0';
         } else if(id === 'C') {
+            if(lockOn) {
+                display.textContent = '0';
+                clearValues();
+                lockOn = false;
+            }
             if(Array.from(display.textContent).length < 2) {
                 display.textContent = '0';
             } else if(display.textContent != '0') {
@@ -47,6 +60,10 @@ other.forEach(btn => {
                 display.textContent = changeSign(display.textContent);
             } else return;
         } else if(id === 'decimal') {
+            if(lockOn) {
+                return;
+            }
+            
             if(hasProperLength(display.textContent)) {
                 display.textContent = toFloat(display.textContent);
             } else return;
@@ -58,6 +75,10 @@ other.forEach(btn => {
 operators.forEach(btn => {
     btn.addEventListener('click', e => {
         let id = e.target.id;
+
+        if(lockOn) {
+            return;
+        }
 
         if(operator && firstOperand && !opIsPressed) {
             lastOperand = display.textContent;
@@ -104,7 +125,7 @@ operators.forEach(btn => {
 })
 
 result.addEventListener('click', e => {
-    if(firstOperand && display.textContent && operator && !opIsPressed) {
+    if(firstOperand && display.textContent && operator && !opIsPressed && !lockOn) {
             lastOperand = display.textContent;
             display.textContent = solveOperation(operator, firstOperand, lastOperand);
             display.textContent = formatDisplay(display.textContent);
@@ -174,6 +195,7 @@ function solveOperation(operator, x, y) {
         return substract(x, y);
     } else if (operator === '/') {
         if(y == 0) {
+            lockOn = true;
             return "ERROR";
         }
         
@@ -231,13 +253,20 @@ function isFloat(val) {
 
 function formatDisplay(str) {
     let arrStr = Array.from(str);
-    if(arrStr.length > 10) {
-        arrStr.splice(16, (arrStr.length-16));
-        str = arrStr.join("");
-        str += "~";
-        return str;
+
+    if(isFloat(str)) {
+        if(arrStr.length > 15) {
+            str = parseFloat(str);
+            str = str.toFixed(1);
+            return str;
+        } else return str;
     } else {
-        return str;
+        if(arrStr.length > 10) {
+            arrStr.splice(16, (arrStr.length-16));
+            str = arrStr.join("");
+            str += "~";
+            return str;
+        } else return str;
     }
 };
 
@@ -245,3 +274,6 @@ function hasProperLength(str) {
     let arrStr = Array.from(str);
     return arrStr.length < 16;
 }
+
+// ------------ KEYBOARD SUPPORT ------------ //
+
