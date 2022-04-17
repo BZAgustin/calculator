@@ -56,23 +56,29 @@ operators.forEach(btn => {
         let id = e.target.id;
         
         // Runs when there is already an existing operation
-        if(lastOperator) {
-            // Check whether the operation button is being pressed twice
-            if(opIsPressed) {
-                return;
-            } else if(firstOperand && lastOperand){
-                if(lastOperand == 0 && operator == '/') {
-                    display.textContent == "ERROR";
-                    return;
-                } else {
-                    lastOperand = display.textContent;
-                    display.textContent = solveOperation(operator, firstOperand, lastOperand);
-                    firstOperand = display.textContent;
-                }
-            }
+        // if(operator) {
+        //     // Check whether the operation button is being pressed twice
+        //     if(opIsPressed) {
+        //         return;
+        //     } else if(firstOperand && lastOperand){
+        //         if(lastOperand == 0 && operator == '/') {
+        //             display.textContent == "ERROR";
+        //             return;
+        //         } else {
+        //             lastOperand = display.textContent;
+        //             display.textContent = solveOperation(operator, firstOperand, lastOperand);
+        //             firstOperand = display.textContent;
+        //         }
+        //     }
+        // }
+
+        if(operator && firstOperand) {
+            lastOperand = display.textContent;
+            display.textContent = solveOperation(operator, firstOperand, lastOperand);
+            firstOperand = display.textContent;
         }
-        
-        if(!operator) {
+
+        if(!opIsPressed) {
             if(id === 'add') {
                 operator = '+';
                 display.textContent += '+';
@@ -88,7 +94,7 @@ operators.forEach(btn => {
             } 
         } else return;
         
-        if(display.textContent != '0') {
+        if(operator && !firstOperand) {
             if(firstOperand === undefined) {
                 firstOperand = display.textContent;
                 opIsPressed = true;
@@ -98,24 +104,18 @@ operators.forEach(btn => {
                 firstOperand = display.textContent;
                 opIsPressed = true;
                 }
-        } else return;
-        
+        } else return; 
     });
 })
 
 result.addEventListener('click', e => {
     if(firstOperand && display.textContent && operator && !opIsPressed) {
-        if(lastOperand == 0 && operator == '/') {
-            display.textContent == "ERROR";
-            return;
-        } else {
             lastOperand = display.textContent;
             display.textContent = solveOperation(operator, firstOperand, lastOperand);
             firstOperand = display.textContent;
             clearValues();
             lastOperator = '';
             operator = '';
-        }
     }   else return;
 });
 
@@ -177,6 +177,10 @@ function solveOperation(operator, x, y) {
         clearValues();
         return substract(x, y);
     } else if (operator === '/') {
+        if(y == 0) {
+            return "ERROR";
+        }
+        
         lastOperator = operator;
         operator = '';
         clearValues();
