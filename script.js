@@ -55,7 +55,7 @@ operators.forEach(btn => {
     btn.addEventListener('click', e => {
         let id = e.target.id;
 
-        if(operator && firstOperand) {
+        if(operator && firstOperand && !opIsPressed) {
             lastOperand = display.textContent;
             display.textContent = solveOperation(operator, firstOperand, lastOperand);
             firstOperand = display.textContent;
