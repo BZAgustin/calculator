@@ -54,23 +54,6 @@ other.forEach(btn => {
 operators.forEach(btn => {
     btn.addEventListener('click', e => {
         let id = e.target.id;
-        
-        // Runs when there is already an existing operation
-        // if(operator) {
-        //     // Check whether the operation button is being pressed twice
-        //     if(opIsPressed) {
-        //         return;
-        //     } else if(firstOperand && lastOperand){
-        //         if(lastOperand == 0 && operator == '/') {
-        //             display.textContent == "ERROR";
-        //             return;
-        //         } else {
-        //             lastOperand = display.textContent;
-        //             display.textContent = solveOperation(operator, firstOperand, lastOperand);
-        //             firstOperand = display.textContent;
-        //         }
-        //     }
-        // }
 
         if(operator && firstOperand) {
             lastOperand = display.textContent;
@@ -82,15 +65,19 @@ operators.forEach(btn => {
             if(id === 'add') {
                 operator = '+';
                 display.textContent += '+';
+                opIsPressed = true;
             } else if(id === 'substract') {
                 operator = '-';
                 display.textContent += '-';
+                opIsPressed = true;
             } else if(id === 'multiply') {
                 operator = '*';
                 display.textContent += '*';
+                opIsPressed = true;
             } else {
                 operator = '/';
                 display.textContent += '/';
+                opIsPressed = true;
             } 
         } else return;
         
