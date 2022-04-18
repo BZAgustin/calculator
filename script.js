@@ -63,7 +63,7 @@ other.forEach(btn => {
             if(lockOn) {
                 return;
             }
-            
+
             if(hasProperLength(display.textContent)) {
                 display.textContent = toFloat(display.textContent);
             } else return;
@@ -122,7 +122,7 @@ operators.forEach(btn => {
                 }
         } else return; 
     });
-})
+});
 
 result.addEventListener('click', e => {
     if(firstOperand && display.textContent && operator && !opIsPressed && !lockOn) {
@@ -147,24 +147,24 @@ function drawNumber(e) {
     } else {
         display.textContent += e.target.innerHTML;
     }
-}
+};
 
 // Basic operations
 function add(a, b) {
     return a+b;
-}
+};
 
 function substract(a, b) {
     return a-b;
-}
+};
 
 function divide(a, b) {
     return a/b;
-}
+};
 
 function multiply(a, b) {
     return a*b;
-}
+};
 
 // Operator function
 function solveOperation(operator, x, y) {
@@ -209,13 +209,13 @@ function solveOperation(operator, x, y) {
         clearValues();
         return multiply(x, y);
     }
-}
+};
 
 // Clear all values
 function clearValues() {
     firstOperand = undefined;
     lastOperand = undefined;
-}
+};
 
 // Remove last digit
 function deleteLastDigit(str) {
@@ -228,7 +228,7 @@ function deleteLastDigit(str) {
     arr.pop();
     str = arr.join("");
     return str;
-}
+};
 
 // Change to opposite sign
 function changeSign(val) {  
@@ -237,19 +237,19 @@ function changeSign(val) {
   } else if(val < 0) {
       return Math.abs(val);
   } else return val;
-}
+};
 
 // Change to float
 function toFloat(str) {
     if(!isFloat(str)) {
         return str + '.';
     } else return str;
-}
+};
 
 // Evaluate float
 function isFloat(val) {
     return Array.from(val).some(element => element === '.');
-}
+};
 
 function formatDisplay(str) {
     let arrStr = Array.from(str);
@@ -273,7 +273,4 @@ function formatDisplay(str) {
 function hasProperLength(str) {
     let arrStr = Array.from(str);
     return arrStr.length < 16;
-}
-
-// ------------ KEYBOARD SUPPORT ------------ //
-
+};
